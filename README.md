@@ -16,7 +16,7 @@ pip install psutil scipy matplotlib opencv-python scikit-image pycocotools
 ```
 
 ## Data Preparation
-Since the copyright of the UPT dataset belongs to the E-commerce website [Zalando](https://www.zalando.co.uk/) and [Zalora](https://www.zalora.com.my/), we only release the image links in this [link](https://drive.google.com/drive/folders/1dEdcanxK5n0Q0Vy0GRMXnjA8rH6SlkCA?usp=sharing). For more details about the dataset and the crawling scripts, please send email to [xiezhy6@mail2.sysu.edu.cn]().
+Since the copyright of the UPT dataset belongs to the E-commerce website [Zalando](https://www.zalando.co.uk/) and [Zalora](https://www.zalora.com.my/), we only release the image links in this [link](https://drive.google.com/file/d/1GpiwvE318_EOmbLrRR8gADmY2cimvkFF/view?usp=sharing). For more details about the dataset and the crawling scripts, please send email to [xiezhy6@mail2.sysu.edu.cn]().
 
 After downloading the raw RGB image, we run the pose estimator [Openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and human parser [Graphonomy](https://github.com/Gaoyiminggithub/Graphonomy) for each image to obtain the 18-points human keypoints and the 19-labels huamn parsing, respectively.
 
