@@ -21,6 +21,7 @@ Since the copyright of the UPT dataset belongs to the E-commerce website [Zaland
 After downloading the raw RGB image, we run the pose estimator [Openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and human parser [Graphonomy](https://github.com/Gaoyiminggithub/Graphonomy) for each image to obtain the 18-points human keypoints and the 19-labels huamn parsing, respectively.
 
 The dataset structure is recommended as:
+```
 +—UPT_256_192
 |   +—UPT_subset1_256_192
 |       +-image
@@ -42,6 +43,7 @@ The dataset structure is recommended as:
 |       +-parsing
 |           +- ...
 |   +— ...
+```
 
 By using the raw RGB image, huamn keypoints, and human parsing, we can run the training script and the testing script.
 
