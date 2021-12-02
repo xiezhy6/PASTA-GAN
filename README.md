@@ -20,10 +20,33 @@ Since the copyright of the UPT dataset belongs to the E-commerce website [Zaland
 
 After downloading the raw RGB image, we run the pose estimator [Openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) and human parser [Graphonomy](https://github.com/Gaoyiminggithub/Graphonomy) for each image to obtain the 18-points human keypoints and the 19-labels huamn parsing, respectively.
 
+The dataset structure is recommended as:
++—UPT_256_192
+|   +—UPT_subset1_256_192
+|       +-image
+|           +- e.g. image1.jpg
+|           +- ...
+|       +-keypoints
+|           +- e.g. image1_keypoints.json
+|           +- ...
+|       +-parsing
+|           +- e.g. image1.png
+|           +- ...
+|       +-train_pairs_front_list_0508.txt
+|       +-test_pairs_front_list_shuffle_0508.txt
+|   +—UPT_subset2_256_192
+|       +-image
+|           +- ...
+|       +-keypoints
+|           +- ...
+|       +-parsing
+|           +- ...
+|   +— ...
+
 By using the raw RGB image, huamn keypoints, and human parsing, we can run the training script and the testing script.
 
 ## Running Inference
-We provide the [pre-trained model](https://drive.google.com/drive/folders/1CNj5VJawwEjbAnpCRO0XlWdOduF1xDjm?usp=sharing) of PASTA-GAN which is trained by using the full UPT dataset (i.e., our newly collected data, data from Deepfashion dataset, partial data from MPV dataset).
+We provide the [pre-trained model](https://drive.google.com/drive/folders/1CNj5VJawwEjbAnpCRO0XlWdOduF1xDjm?usp=sharing) of PASTA-GAN which is trained by using the full UPT dataset (i.e., our newly collected data, data from Deepfashion dataset, data from MPV dataset).
 
 we provide a simple script to test the pre-trained model provided above on the UPT dataset as follow:
 ```
