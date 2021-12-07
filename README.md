@@ -65,3 +65,18 @@ or you can run the bash script by using the following commend:
 bash test.sh 1
 ```
 Note that, in the testing script, the parameter `--network` refers to the path of the pre-trained model, the parameter `--outdir` refers to the path of the directory for generated results, the parameter `--dataroot` refers to the path of the data root. Before running the testing script, please make sure these parameters refer to the correct locations.
+
+## Running Inference
+### Training the 256x192 PASTA-GAN full body model on the UPT dataset
+1. Download the UPT_256_192 training set.
+2. Download the VGG model from [VGG_model](https://drive.google.com/file/d/1G3L6rzwSXRALoSq4heqKsboUZk4lth1g/view?usp=sharing), then put "vgg19_conv.pth" and "vgg19-dcbb9e9d" under the directory "checkpoints".
+3. Run `bash train.sh 1`.
+
+## Todo
+- [x] Release the the pretrained model (256x192) and the inference script.
+- [x] Release the training script.
+- [ ] Release the pretrained model (512x320).
+
+## License
+The use of this code is RESTRICTED to non-commercial research and educational purposes.
+
