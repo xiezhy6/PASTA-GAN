@@ -73,7 +73,6 @@ def denorm_clothes(norm_patches, norm_patches_lower, M_invs, norm_clothes_mask, 
         else:
             norm_patch = norm_patches[col,ii*3:(ii+1)*3,...].transpose(1,2,0)
             norm_clothes_mask_patch = norm_clothes_mask[col,ii*3:(ii+1)*3,...].transpose(1,2,0)
-
         if ii >= 6:
             ###### 0-(gap-1)换裤子，gap-(2*gap-1)换全身，裤子索引是col 
             if row < 2 * gap:
@@ -98,7 +97,7 @@ def denorm_clothes(norm_patches, norm_patches_lower, M_invs, norm_clothes_mask, 
             denorm_clothes_mask_patch_lower = cv2.warpPerspective(norm_clothes_mask_patch_lower,M_inv,(256,256),borderMode=cv2.BORDER_CONSTANT)
             denorm_clothes_mask_patch_lower = cv2.erode(denorm_clothes_mask_patch_lower, kernel, iterations=1)[...,0:1]
             denorm_clothes_mask_patch_lower = (denorm_clothes_mask_patch_lower==255).astype(np.uint8)
-            denorm_upper_img = denorm_patch_lower * denorm_clothes_mask_patch_lower + denorm_upper_img * (1-denorm_clothes_mask_patch_lower)
+            denorm_lower_img = denorm_patch_lower * denorm_clothes_mask_patch_lower + denorm_lower_img * (1-denorm_clothes_mask_patch_lower)
 
     denorm_upper_img = denorm_upper_img.transpose(2,0,1)[np.newaxis,...]
     denorm_lower_img = denorm_lower_img.transpose(2,0,1)[np.newaxis,...]
@@ -426,7 +425,6 @@ def training_loop(
             phase_real, phase_pose, phase_norm_img, phase_norm_img_lower, phase_denorm_upper_img, phase_denorm_lower_img, _, \
                 phase_gt_parsing, phase_denorm_upper_mask, phase_denorm_lower_mask, _, _, phase_retain_mask = next(training_set_iterator)
 
-
             phase_real_tensor = phase_real.to(device).to(torch.float32) / 127.5 - 1
 
             # phase_sem = phase_sem.to(device)
@@ -503,6 +501,7 @@ def training_loop(
                 sync = (round_idx == batch_size // (batch_gpu * num_gpus) - 1)
                 gain = phase.interval
                 # 把style_input当做 real_c 和 gen_c。为了增加可变性, gen_z还是保留
+
                 loss.accumulate_gradients(phase=phase.name, real_img=real_img, gen_z=gen_z, style_input=style_input, 
                                           retain=retain, pose=pose, denorm_upper_input=denorm_upper_input, 
                                           denorm_lower_input=denorm_lower_input, denorm_upper_mask=denorm_upper_mask,
@@ -583,6 +582,7 @@ def training_loop(
                                     denorm_lower_im, denorm_upper_ma, denorm_lower_ma, pose \
                     in zip(grid_z, grid_parts, grid_retains, grid_denorm_upper_ims, grid_denorm_lower_ims, grid_denorm_upper_masks, grid_denorm_lower_masks, grid_poses)]).numpy()
             save_image_grid(image_side, image_top, finetune_fake_images, os.path.join(run_dir, f'fakes{cur_nimg//1000:06d}_finetune.png'), drange=[-1,1], grid_size=(gnum, gnum))
+            
 
         # Save network snapshot.
         snapshot_pkl = None

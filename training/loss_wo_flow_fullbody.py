@@ -154,7 +154,7 @@ class StyleGAN2Loss(Loss):
 
                 loss_mask = 0
                 if self.mask_weight > 0:
-                    loss_mask = self.ce_parsing(pred_parsing, gt_parsing.long()[:,0,...]) * self.mask_weight
+                    loss_mask = torch.mean(self.ce_parsing(pred_parsing, gt_parsing.long()[:,0,...])) * self.mask_weight
 
                 training_stats.report('Loss/G/mask_loss', loss_mask)
 

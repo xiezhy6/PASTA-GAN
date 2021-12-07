@@ -5595,6 +5595,8 @@ class ToRGBLayerFull(torch.nn.Module):
         if self.is_last and self.is_style:
             self.m_weight1 = torch.nn.Parameter(torch.randn([6, in_channels, kernel_size, kernel_size]).to(memory_format=memory_format))
             self.m_bias1 = torch.nn.Parameter(torch.zeros([6]))
+            # self.m_weight1 = torch.nn.Parameter(torch.randn([5, in_channels, kernel_size, kernel_size]).to(memory_format=memory_format))
+            # self.m_bias1 = torch.nn.Parameter(torch.zeros([5]))
 
     def forward(self, x, w, fused_modconv=True):
         styles = self.affine(w) * self.weight_gain
@@ -5820,11 +5822,11 @@ class SynthesisNetworkFull(torch.nn.Module):
         softmax = torch.nn.Softmax(dim=1)
         parsing_index = torch.argmax(softmax(pred_parsing.detach()), dim=1)[:,None,...].float()
 
-        upper_mask = (parsing_index==1).to(torch.uint8)
-        lower_mask = (parsing_index==2).to(torch.uint8)
+        upper_mask = (parsing_index==1).float()
+        lower_mask = (parsing_index==2).float()
 
-        spade_upper_feat = self.get_spade_feat(upper_mask, denorm_upper_mask, denorm_upper_input)
-        spade_lower_feat = self.get_spade_feat(lower_mask, denorm_lower_mask, denorm_lower_input)
+        spade_upper_feat = self.get_spade_feat(upper_mask.detach(), denorm_upper_mask, denorm_upper_input)
+        spade_lower_feat = self.get_spade_feat(lower_mask.detach(), denorm_lower_mask, denorm_lower_input)
 
         spade_feat = torch.cat([spade_upper_feat, spade_lower_feat],dim=1)
 

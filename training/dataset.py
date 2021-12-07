@@ -422,6 +422,7 @@ class ImageFolderDataset(Dataset):
 #----------------------------------------------------------------------------
 
 ############# Dataset for full body model ############
+
 class UvitonDatasetFull(Dataset):
     def __init__(self,
         path,                   # Path to directory or zip.
@@ -452,14 +453,18 @@ class UvitonDatasetFull(Dataset):
             
             vis_dir = os.path.join(self._path,'train_img_vis')
             image_list = sorted(os.listdir(vis_dir))
+            # image_list = os.listdir(vis_dir)
             vis_index = []
             for image_name in image_list:
+                # zalora_path = os.path.join(self._path, 'Zalora_256_192', 'image', image_name)
                 zalando_path = os.path.join(self._path, 'Zalando_256_192', 'image', image_name)
                 deepfashion_path = os.path.join(self._path, 'Deepfashion_256_192', 'image', 'train', image_name)
                 if os.path.exists(zalando_path):
                     vis_index.append(self._image_fnames.index(os.path.join('Zalando_256_192','image', image_name)))
                 elif os.path.exists(deepfashion_path):
                     vis_index.append(self._image_fnames.index(os.path.join('Deepfashion_256_192','image', 'train', image_name)))
+                # elif os.path.exists(zalora_path):
+                #     vis_index.append(self._image_fnames.index(os.path.join('Zalora_256_192', 'image', image_name)))
 
             self._vis_index = vis_index
 
@@ -660,7 +665,7 @@ class UvitonDatasetFull(Dataset):
             up_mask = (up_mask > 0).astype(np.float32)[...,np.newaxis]
         if e_c > 0.1 and w_c > 0.1:
             bottom_mask = self.get_rectangle_mask(e_x, e_y, w_x, w_y, h, w)
-            kernel = np.ones((18,18),np.uint8)
+            kernel = np.ones((16,16),np.uint8)
             bottom_mask = cv2.dilate(bottom_mask,kernel,iterations=1)
             bottom_mask = (bottom_mask > 0).astype(np.float32)[...,np.newaxis]
 
@@ -890,7 +895,7 @@ class UvitonDatasetFull(Dataset):
                     denorm_clothes_mask_patch_lower = cv2.warpPerspective(part_clothes_mask_lower, M_inv, (o_w,o_h), borderMode=cv2.BORDER_CONSTANT)[...,0:1]
                     denorm_clothes_mask_patch_lower = (denorm_clothes_mask_patch_lower==255).astype(np.uint8)
 
-                    denorm_upper_img = denorm_patch_lower * denorm_clothes_mask_patch_lower + denorm_upper_img * (1-denorm_clothes_mask_patch_lower)
+                    denorm_lower_img = denorm_patch_lower * denorm_clothes_mask_patch_lower + denorm_lower_img * (1-denorm_clothes_mask_patch_lower)
 
                 M_invs.append(M_inv[np.newaxis,...])
             else:
