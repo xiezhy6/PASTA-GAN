@@ -51,7 +51,7 @@ The dataset structure is recommended as:
 By using the raw RGB image, huamn keypoints, and human parsing, we can run the training script and the testing script.
 
 ## Running Inference
-We provide the [pre-trained model](https://drive.google.com/drive/folders/1CNj5VJawwEjbAnpCRO0XlWdOduF1xDjm?usp=sharing) of PASTA-GAN which is trained by using the full UPT dataset (i.e., our newly collected data, data from Deepfashion dataset, data from MPV dataset).
+We provide the [pre-trained models](https://drive.google.com/drive/folders/1CNj5VJawwEjbAnpCRO0XlWdOduF1xDjm?usp=sharing) of PASTA-GAN which are trained by using the full UPT dataset (i.e., our newly collected data, data from Deepfashion dataset, data from MPV dataset) with the resolution of 256 and 512 separately.
 
 we provide a simple script to test the pre-trained model provided above on the UPT dataset as follow:
 ```
@@ -61,10 +61,15 @@ CUDA_VISIBLE_DEVICES=0 python3 -W ignore test.py \
     --dataroot /datazy/Datasets/PASTA_UPT_256 \
     --batchsize 16
 ```
-or you can run the bash script by using the following commend:
+or you can run the bash script by using the following command:
 ```
 bash test.sh 1
 ```
+To test with higher resolution pretrained model (512x320), you can run the bash script by using the following command:
+```
+bash test.sh 2
+```
+
 Note that, in the testing script, the parameter `--network` refers to the path of the pre-trained model, the parameter `--outdir` refers to the path of the directory for generated results, the parameter `--dataroot` refers to the path of the data root. Before running the testing script, please make sure these parameters refer to the correct locations.
 
 ## Running Training
@@ -76,7 +81,8 @@ Note that, in the testing script, the parameter `--network` refers to the path o
 ## Todo
 - [x] Release the the pretrained model (256x192) and the inference script.
 - [x] Release the training script.
-- [ ] Release the pretrained model (512x320).
+- [x] Release the pretrained model (512x320).
+- [ ] Release the training script for model (512x320).
 
 ## License
 The use of this code is RESTRICTED to non-commercial research and educational purposes.
